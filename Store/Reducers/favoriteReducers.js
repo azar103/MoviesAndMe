@@ -1,4 +1,4 @@
-const initialState = { favoritesFilm: [] , historicFilms: []}
+const initialState = { favoritesFilm: [] }
 function toggleFavorite(state = initialState, action){
   let nextState
   switch (action.type) {
@@ -19,27 +19,7 @@ function toggleFavorite(state = initialState, action){
         }
       }
       return nextState || state
-      case 'TOGGLE_FILMDETAIL':
-      var historicFilmIndex = state.historicFilms.findIndex( item=> item.id === action.value.id)
-         if(historicFilmIndex === -1){
-                nextState = {...state,
-                    historicFilms: [...state.historicFilms, action.value]
-                    }
-        
-         }
      
-        return nextState|state
-        case 'REMOVE_HISTORIC_FILM':
-          var historicFilmIndex = state.historicFilms.findIndex( item=> item.id === action.value.id)
-           nextState = {...state, 
-                         historicFilms: state.historicFilms.filter((item, index) => item.id !==  historicFilmIndex) 
-                       }
-         
-          return nextState|state
-       case 'RESET_HISTORIC':
-           nextState = {...state, 
-         historicFilms: []}
-         return nextState|state
   default:
     return state
   }

@@ -1,7 +1,7 @@
 // Components/FilmDetail.js
 
 import React from 'react'
-import { StyleSheet, View, Text, ActivityIndicator, ScrollView, Image, TouchableOpacity, Share, Alert, Platform, Button } from 'react-native'
+import { StyleSheet, View, Text, ActivityIndicator, ScrollView, Image, Share, Platform, Button, TouchableOpacity } from 'react-native'
 import { getFilmDetailFromApi, getImageFromApi } from '../API/TMDBApi'
 import moment from 'moment'
 import numeral from 'numeral'
@@ -33,7 +33,9 @@ class FilmDetail extends React.Component {
     }
 
     this._toggleFavorite = this._toggleFavorite.bind(this)
+    this._toggleViewed = this._toggleViewed.bind(this)
     this._shareFilm = this._shareFilm.bind(this)
+  
   }
 
   _updateNavigationParams() {
@@ -72,6 +74,11 @@ class FilmDetail extends React.Component {
 
   _toggleFavorite() {
     const action = { type: "TOGGLE_FAVORITE", value: this.state.film }
+    this.props.dispatch(action)
+  }
+  
+  _toggleViewed() {
+    const action = { type: "TOGGLE_VIEWED", value: this.state.film }
     this.props.dispatch(action)
   }
 
@@ -121,6 +128,7 @@ class FilmDetail extends React.Component {
               return company.name;
             }).join(" / ")}
           </Text>
+          {this._displayButton()}
         </ScrollView>
       )
     }
@@ -145,14 +153,30 @@ class FilmDetail extends React.Component {
       )
     }
   }
+  _displayButton() {
+    let title = "Marquer comme Vu"
+    const indexOfViewedBook = this.props.viewedFilms.findIndex(item => item.id == this.state.film.id)
+
+    if(indexOfViewedBook !== -1){
+        title = "Non Vu"      
+    }
+    return(
+        <Button 
+        title={title} 
+        onPress={()=> this._toggleViewed() } 
+    /> )
+}
 
   render() {
+    console.log(this.props.viewedFilms)
     return (
-      <View style={styles.main_container}>
+      <ScrollView style={styles.main_container}>
         {this._displayLoading()}
         {this._displayFilm()}
         {this._displayFloatingActionButton()}
-      </View>
+
+        
+      </ScrollView>
     )
   }
 }
@@ -198,7 +222,7 @@ const styles = StyleSheet.create({
     margin: 5,
     marginBottom: 15
   },
-  default_text: {
+  default_text: {
     marginLeft: 5,
     marginRight: 5,
     marginTop: 5,
@@ -230,7 +254,8 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => {
   return {
-    favoritesFilm: state.toggleFavorite.favoritesFilm
+    favoritesFilm: state.toggleFavorite.favoritesFilm,
+    viewedFilms: state.toggleViewed.viewedFilms
   }
 }
 

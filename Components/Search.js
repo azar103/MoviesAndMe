@@ -4,7 +4,6 @@ import { StyleSheet, View, TextInput, Button, ActivityIndicator} from 'react-nat
 import { getFilmsFromApiWithSearchedText } from '../API/TMDBApi'
 import { connect } from 'react-redux'
 import FilmList from './FilmList'
-import SafeAreaView from 'react-native-safe-area-view'
 class Search extends React.Component{
    constructor(props){
      super(props)
@@ -17,8 +16,6 @@ class Search extends React.Component{
       }
       this._loadFilms = this._loadFilms.bind(this)
     }
-
-
   _loadFilms(){
     this.setState({isLoading: true})
     if(this.searchedText.length>0){
@@ -59,8 +56,10 @@ class Search extends React.Component{
   }
   
   render(){
+  
     return(
       <View style={styles.main_container}>
+        
          <TextInput onSubmitEditing={() => this._searchFilms()} 
                    onChangeText={(text)=> this._searchTextInputChanged(text)} 
                    style={styles.textinput} placeholder='Titre du film' />

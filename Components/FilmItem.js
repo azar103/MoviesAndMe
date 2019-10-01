@@ -3,7 +3,7 @@ import React from 'react'
 import { View, StyleSheet, Text, Image, TouchableOpacity } from 'react-native'
 import { getImageFromApi } from '../API/TMDBApi'
 
-import FadeIn from '../Animations/fadeIn'
+import FadeIn from '../Animations/FadeIn'
 class FilmItem extends React.Component{
 
   

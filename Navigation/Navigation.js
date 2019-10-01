@@ -1,71 +1,121 @@
-import { createAppContainer} from 'react-navigation'
-import { createStackNavigator} from 'react-navigation-stack'
-import { createBottomTabNavigator } from 'react-navigation-tabs'
+// Navigation/Navigations.js
+
+import React from 'react'
+import { StyleSheet, Image } from 'react-native'
+import { createStackNavigator, createBottomTabNavigator, createAppContainer } from 'react-navigation'
 import Search from '../Components/Search'
 import FilmDetail from '../Components/FilmDetail'
 import Favorites from '../Components/Favorites'
-import React from 'react'
-import { Image, StyleSheet } from 'react-native'
+import News from '../Components/News'
+import FilmViewed from '../Components/FilmViewed'
+import ViewedFilms from '../Components/ViewedFilms'
+
 const SearchStackNavigator = createStackNavigator({
-    Search: {
-         screen: Search,
-         navigationOptions: {
-             title: 'Rechercher'
-         }
-    },
-    FilmDetail: {
-        screen: FilmDetail
+  Search: {
+    screen: Search,
+    navigationOptions: {
+      title: 'Rechercher'
     }
-   
+  },
+  FilmDetail: {
+    screen: FilmDetail
+  }
 })
 
 const FavoritesStackNavigator = createStackNavigator({
-    Favorites: {
-        screen: Favorites,
-        navigationOptions: {
-            title: 'Favoris'
-        }
+  Favorites: {
+    screen: Favorites,
+    navigationOptions: {
+      title: 'Favoris'
     }
+  },
+  FilmDetail: {
+    screen: FilmDetail
+  }
 })
-const MoviesTabNavigator = createBottomTabNavigator({
 
-   Search: {
-       screen: SearchStackNavigator,
-       navigationOptions: {
-           tabBarIcon: () =>  {
-               return <Image
-               source={require('../Images/ic_search.png')}
-               style={styles.icon}
-            
-            />}
-       }
-   },
+const NewsStackNavigator = createStackNavigator({
+  News: {
+    screen: News,
+    navigationOptions: {
+      title: 'Les Derniers Films',
+    },
+  },
+  FilmDetail: {
+    screen: FilmDetail,
+  }
+})
 
-    Favorites:{
-        screen: FavoritesStackNavigator,
-        navigationOptions: {
-            tabBarIcon: () =>  {
-                return <Image
-                source={require('../Images/my-icon-favorite.png')}
-                style={styles.icon}
-             
-             />}
+const SeenStackNavigator = createStackNavigator({
+  FilmViewed: {
+    screen: ViewedFilms,
+    navigationOptions: {
+      title: 'Mes Films Vus',
+    },
+  },
+  FilmDetail: {
+    screen: FilmDetail,
+  }
+})
+
+const MoviesTabNavigator = createBottomTabNavigator(
+  {
+    Search: {
+      screen: SearchStackNavigator,
+      navigationOptions: {
+        tabBarIcon: () => {
+          return <Image
+            source={require('../Images/ic_search.png')}
+            style={styles.icon}/>
         }
+      }
+    },
+    Favorites: {
+      screen: FavoritesStackNavigator,
+      navigationOptions: {
+        tabBarIcon: () => {
+          return <Image
+            source={require('../Images/ic_favorite.png')}
+            style={styles.icon}/>
+        }
+      }
+    },
+    News: {
+      screen: NewsStackNavigator,
+      navigationOptions: {
+        tabBarIcon: () => {
+          return <Image
+            source={require('../Images/ic_fiber_new.png')}
+            style={styles.icon}/>
+        }
+      }
+    },
+    Seen: {
+      screen: SeenStackNavigator,
+      navigationOptions: {
+        tabBarIcon: () => {
+          return <Image
+            source={require('../Images/ic_check.png')}
+            style={styles.icon}/>
+        }
+      }
     }
-}, {
+  },
+  {
     tabBarOptions: {
-        showLabel: false,
-        showLable: true,
-        activeBackgroundColor: '#DDDDDD',
-        inactiveBackgroundColor: '#FFFFFF'
+      activeBackgroundColor: '#DDDDDD',
+      inactiveBackgroundColor: '#FFFFFF',
+      showLabel: false,
+      showIcon: true
     }
-}
+  }
 )
 
 const styles = StyleSheet.create({
-    icon: {
-        width: 30,
-        height: 30
-    }
+  icon: {
+    width: 30,
+    height: 30
+  }
 })
+
 export default createAppContainer(MoviesTabNavigator)
